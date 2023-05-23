@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'Constants/strings.dart';
 import 'Controller/EncryptService.dart';
 
 
@@ -26,7 +27,7 @@ class _PasswordHomePageState extends State<PasswordHomePage>
         title: Text('Your Passwords', style: GoogleFonts.getFont('Inter', color: Colors.white)),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Color(0xff6C5DD3),
+        backgroundColor: Color(0xffFF7678),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -55,13 +56,13 @@ class _PasswordHomePageState extends State<PasswordHomePage>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(children: [
-                            Icon(Icons.lock_outline_rounded, color: Color(0xff323A82), size: 32),
-                            Text('${data["type"]}', style: GoogleFonts.getFont('Inter', color: Color(0xff323A82), fontSize: 18)),
+                            Icon(Icons.lock_outline_rounded, color: Color(0xff372E52), size: 32),
+                            Text('${data["type"]}', style: GoogleFonts.getFont('Inter', color: Color(0xffFF7678), fontSize: 18)),
                           ]),
                           Row(children: [
                             InkWell(
                               onTap: () => _encryptService.copyToClipboard(data['password'], context),
-                              child: Icon(Icons.copy_rounded, color: Color(0xff6C5DD3), size: 28, )
+                              child: Icon(Icons.copy_rounded, color: Color(0xff372E52), size: 28, )
                             ),
                             SizedBox(width: 15),
                             InkWell(
@@ -82,7 +83,7 @@ class _PasswordHomePageState extends State<PasswordHomePage>
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, color: Colors.white),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        backgroundColor: Color(0xff6C5DD3),
+        backgroundColor: Color(0xffFFC5C6),
         onPressed: insertDB,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -95,7 +96,7 @@ class _PasswordHomePageState extends State<PasswordHomePage>
       context: context,
       builder: (context) => AlertDialog(
         title: Center(child: Text('Delete $type', style: GoogleFonts.getFont('Inter'))),
-        content: Text('Are you sure to delete $type'),
+        content: Text('delete $type?'),
         actions: [
           TextButton(
             child: Text('Yes'),
@@ -127,59 +128,68 @@ class _PasswordHomePageState extends State<PasswordHomePage>
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Service',
-                    hintText: 'Google'
+                    labelText: Strings.service,
+                    hintText: Strings.google
                   ),
                   style: GoogleFonts.getFont('Inter', fontSize: 18),
                   onChanged: (value) => type = value,
                   validator: (val) {
-                    if( val!.trim().isEmpty ) return 'Enter a value!';
-                    else return null;
+                    if( val!.trim().isEmpty ) {
+                      return Strings.enterValue;
+                    } else {
+                      return null;
+                    }
                   },
                 ),
-                SizedBox(height: 15.0),
+                const SizedBox(height: 15.0),
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Username/Email/Phone',
+                    labelText: Strings.usernameEmailPhone,
                   ),
                   style: GoogleFonts.getFont('Inter', fontSize: 18),
                   onChanged: (value) => email = value,
                   validator: (val) {
-                    if( val!.trim().isEmpty ) return 'Enter a value!';
-                    else return null;
+                    if( val!.trim().isEmpty ) {
+                      return Strings.enterValue;
+                    } else {
+                      return null;
+                    }
                   },
                 ),
-                SizedBox(height: 15.0),
+                const SizedBox(height: 15.0),
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Password',
+                    labelText: Strings.password,
                   ),
                   style: GoogleFonts.getFont('Inter', fontSize: 18),
                   onChanged: (value) => password = value,
                   validator: (val) {
-                    if( val!.trim().isEmpty ) return 'Enter a value!';
-                    else return null;
+                    if( val!.trim().isEmpty ) {
+                      return Strings.enterValue;
+                    } else {
+                      return null;
+                    }
                   },
                 ),
                 SizedBox(height: 15.0),
                 ElevatedButton(
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 50.0, vertical: 13.0)
+                      const EdgeInsets.symmetric(horizontal: 50.0, vertical: 13.0)
                     ),
                     backgroundColor: MaterialStateProperty.all( Color(0xff6C5DD3) )
                   ),
-                  child: Text('Save', style:  GoogleFonts.getFont('Inter', fontSize: 18)),
+                  child: Text(Strings.save, style:  GoogleFonts.getFont('Inter', fontSize: 18)),
                   onPressed: (){
                     // Encrypt
                     password = _encryptService.encrypt(password);
 
                     // Insert into DB
-                    Box box = Hive.box('password');
+                    Box box = Hive.box(Strings.password);
 
                     //insert
                     var value = {

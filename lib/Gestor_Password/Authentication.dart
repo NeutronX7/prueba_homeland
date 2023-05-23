@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gestor_passwords/Gestor_Password/Constants/strings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:local_auth/local_auth.dart';
@@ -49,9 +50,7 @@ class _AuthenticationPageState extends State<AuthenticationPage>  {
 
     var encryptionKey = base64Url.decode( key! );
 
-     print('Encryption key: $encryptionKey');
-
-    await Hive.openBox('password', encryptionCipher: HiveAesCipher(encryptionKey));
+    await Hive.openBox(Strings.encryptionKey, encryptionCipher: HiveAesCipher(encryptionKey));
 
 
   }
@@ -79,7 +78,7 @@ class _AuthenticationPageState extends State<AuthenticationPage>  {
     try {
       var localAuth = LocalAuthentication();
       authenticated = await localAuth.authenticate(
-        localizedReason: 'Please authenticate to show your passwords',
+        localizedReason: Strings.pleaseAuthenticate,
         biometricOnly: true,
         useErrorDialogs: true,
         stickyAuth: false
@@ -125,7 +124,7 @@ class _AuthenticationPageState extends State<AuthenticationPage>  {
                 child: Container(
                   height: 150,
                   width: 150,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color(0xff6C5DD3),
                     shape: BoxShape.circle
                   ),

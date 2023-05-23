@@ -36,9 +36,9 @@ class _AuthenticationPinPageState extends State<AuthenticationPinPage> {
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Column(
           children: [
-            SizedBox(height: 20.0),
-            Text('Enter PIN', style: GoogleFonts.getFont('Inter', fontSize: 22, color: Color(0xff6C5DD3), fontWeight: FontWeight.w500)),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
+            Text('Enter PIN', style: GoogleFonts.getFont('Inter', fontSize: 22, color: const Color(0xff6C5DD3), fontWeight: FontWeight.w500)),
+            const SizedBox(height: 20.0),
             TextField(
               readOnly: true,
               textAlign: TextAlign.center,
